@@ -1,4 +1,4 @@
-# Daddle - High-Performance Garbled JSON Generator
+# Daddle
 
 Daddle is a blazing-fast Rust-based HTTP service built with Axum that generates completely random, chaotic, and truly "garbled" JSON payloads of varying sizes with configurable wait durations. Engineered for extreme performance, Daddle can deliver **8MB responses in 20-50ms** while maintaining valid JSON structure and being Kubernetes-friendly with intelligent memory management.
 
