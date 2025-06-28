@@ -1,14 +1,14 @@
 # Daddle
 
-Daddle is a blazing-fast Rust-based HTTP service built with Axum that generates completely random, chaotic, and truly "garbled" JSON payloads of varying sizes with configurable wait durations. Engineered for extreme performance, Daddle can deliver **8MB responses in 20-50ms** while maintaining valid JSON structure and being Kubernetes-friendly with intelligent memory management.
+Daddle is a blazing-fast Rust-based HTTP service that generates completely random, chaotic, and truly "arbled JSON payloads of varying sizes with configurable wait durations. 
 
 ## 🚀 Key Features
 
 ### ⚡ **Extreme Performance**
-- **8MB responses in 20-50ms** - Optimized for high-throughput scenarios
-- **Instant startup** - No blocking initialization, ready in <1 second
-- **Memory-efficient streaming** - Handle massive payloads without memory spikes
-- **Kubernetes-friendly** - Configurable memory limits and intelligent resource management
+- Optimized for high-throughput scenarios
+- No blocking initialization, ready in <1 second
+- Handles massive payloads without memory spikes
+- Configurable memory limits and intelligent resource management
 
 ### 🎯 **Smart Performance Strategies**
 - **< 10KB**: Direct generation (fastest for small payloads)
@@ -25,7 +25,7 @@ Generates completely random, unpredictable JSON structures including:
 - UUIDs, hex strings, base64-like data
 - **No fixed structure** - every response is unique chaos
 
-### ⚙️ **Enterprise Ready**
+### ⚙️ **Ready to Go**
 - **Configurable Response Sizes**: Generate JSON payloads between specified minimum and maximum sizes
 - **Variable Wait Durations**: Simulate processing time with configurable sleep durations
 - **Flexible Configuration**: Configure defaults via JSON file, override with query parameters
@@ -144,22 +144,6 @@ curl http://localhost:3000/stats
 - Background generation statistics
 - Cache performance metrics
 
-### `/stats` - Performance Statistics
-
-Returns chunk pool and performance statistics.
-
-**Method**: `GET`
-
-**Example**:
-```bash
-curl http://localhost:3000/stats
-```
-
-**Response includes**:
-- Chunk pool memory usage and hit rates
-- Background generation statistics
-- Cache performance metrics
-
 ## Configuration
 
 The service can be configured via the `config.json` file in the project root:
@@ -241,59 +225,7 @@ curl "http://localhost:3000/garble?minBodySize=8000000&maxBodySize=8000000&minWa
 curl "http://localhost:3000/garble?minBodySize=50000000&maxBodySize=50000000"
 ```
 
-### 📊 **Performance Monitoring**
-
-Monitor chunk pool performance and cache hit rates:
-```bash
-curl http://localhost:3000/stats
-```
-
-Example response:
-```json
-{
-  "chunk_pool": {
-    "total_chunks": 42,
-    "memory_usage_mb": 12,
-    "cache_hit_rate": 0.95,
-    "background_generations": 15
-  }
-}
-```
-
-## 🎯 Use Cases
-
-- **High-Performance Load Testing**: Generate massive payloads (8MB+) in milliseconds to stress-test infrastructure
-- **Chaos Engineering**: Introduce random delays and payload sizes to test system resilience
-- **API Performance Testing**: Simulate realistic response patterns with extreme speed
-- **Network Infrastructure Testing**: Create variable network traffic for bandwidth testing
-- **Microservices Development**: Mock external services with realistic, unpredictable data
-- **Kubernetes Stress Testing**: Memory-aware operation perfect for containerized environments
-- **CDN Testing**: Generate large payloads to test content delivery networks
-- **Database Load Simulation**: Create realistic data volumes for database performance testing
-
-## 🏆 **Why Daddle?**
-
-- **Unmatched Speed**: 8MB responses in 20-50ms beats traditional generators by 100x
-- **True Randomness**: No predictable patterns - every response is genuinely chaotic
-- **Production Ready**: Memory-safe, Kubernetes-friendly, with comprehensive monitoring
-- **Zero Downtime**: Instant startup, no blocking initialization
-- **Scalable Architecture**: Handles everything from 1KB to 50MB+ responses efficiently
-
-## 📈 Performance Benchmarks
-
-Real-world performance measurements on modern hardware:
-
-| Payload Size | Strategy | Response Time | Memory Usage | Throughput |
-|--------------|----------|---------------|--------------|------------|
-| 1KB | Direct | ~1ms | <1MB | 1000+ req/s |
-| 100KB | Chunk Pool | ~5ms | ~8MB | 500+ req/s |
-| 1MB | Parallel | ~15ms | ~16MB | 100+ req/s |
-| 8MB | Streaming | ~30ms | ~8MB | 50+ req/s |
-| 50MB | Streaming | ~150ms | ~8MB | 10+ req/s |
-
-*Benchmarks include configured wait times. Actual generation is even faster.*
-
-## 🔧 Development
+## Development
 
 ### Building
 ```bash
@@ -318,4 +250,4 @@ cargo clippy
 
 ## License
 
-This project is open source. See the LICENSE file for details.
+This project is open source. See the [LICENSE](LICENSE.md) file for details.
