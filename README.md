@@ -93,25 +93,52 @@ The response is completely garbled JSON with no fixed structure. Every response 
 
 ```json
 {
-  "garbled_8xK2mP": {
-    "chaos": [null, true, "GARBLED_12345_abc123_xyz", 42.7],
-    "mayhem": "!@#$%^&*()_+random_stuff_here",
-    "disorder": -9876543210
-  },
-  "field_987654321": [
-    {
-      "random_key_xyz": "UUID_550e8400-e29b-41d4-a716-446655440000_HEX_deadbeef_",
-      "another_chaos": null
+  "OFP%j[0qf2;TTI!*j0hO": {
+    "2d5fe81f_fb7f_4704_b606_57b5a7aebfa4": {
+      "05985b4d69617b3f38": {
+        "0d00c17891b": "2025-06-29 07:42:46.242503 UTC",
+        "2zdwG_230488105": [],
+        "8c8df1c6_4098_43bf_b243_37a315d27f20": "IUIMXu2Q2sqS39Bva4g9mM/oolW4g5MlftyJoC/siju8",
+        "FEAxE00-0oCUdKkEP": null,
+        "SHNjzbpJeLcjwztE": [
+          "wEU,AvI3{cRM6+z7%ii:D",
+          -2542683836428308362,
+          "j@pQ!l,j-~JjzX^VE4jpUB$*{}ra@Ni$O"
+        ],
+        "YUZuwuF-": 4319109914484698971,
+        "ZMxO2iWNDj5bC-9brz0": 0.6490290830980666,
+        "field_17737776738356680243": "UtXk0ehNKBcSAgc-m4AHzYNvKLXntwQuR7aL6LiyVHz",
+        "field_4688877596922098470": null,
+        "garbled_9gr7XW7i": "2025-06-29 07:42:46.242650 UTC",
+        "garbled_j76dLRiw": "43fc0e5c578ab8a1c559c0fdc3"
+      },
+      "field_15692735315835169438": ">T~{MNo^_&l}FFQu:3N.HaWv8s:=9UM~&OI`{8%",
+      "kGNSR_1701937921": {
+        "-p1Tj_865286472": -4660943544106295363,
+        "02a7707cfc90104c812cb0a1779e7": [
+          null,
+          8400274521474645370,
+          0.315398570792483,
+          7314428524892887461,
+          9087646353759153137
+        ],
+        "33b334aa93da": "283c221ffc88fd2b7de12",
+        "8562e042ab2618bed": "6198d4b9-0f94-4813-b6af-2745a4a15c4e",
+        "8d22ec7d_1f37_4bf6_a5f6_4f3c82840717": -5964232166637025800,
+        ">5<@e-ACHjm_TUjr`TBsK,GVOnFNf_RC~g#gN_IhW": null,
+        "field_13617532672358591833": "2025-06-29 07:42:46.241118 UTC",
+        "field_9782506042809497189": "91ca5aafb7e2",
+        "garbled_oKjObcPI": 0.7278492899847163,
+        "hIuxw_3434006643": true
+      },
+      "u7NT0Y9L-5Lj": "bOko5q/n6LjOu9Q2Hu6px+"
     },
-    "base64like_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-    false
-  ],
-  "hex_deadbeef123": 3.14159,
-  "completely_random": {
-    "nested_chaos": {
-      "deep_garble": "!@#$%^&*()_+RANDOM_STUFF"
-    }
-  }
+    "kayl-qJQZXWJ": null
+  },
+  "bfa525d8_9f33_4b6c_9a03_2df7db40a517": "2025-06-29 07:42:46.240465 UTC",
+  "f#,sV4P`OrVZ_Tg6": "2025-06-29 07:42:46.240432 UTC",
+  "field_1494827627947597647": 3259602512930859468,
+  "kPuO8_1114626528": "qaJ~8}*"
 }
 ```
 
@@ -198,32 +225,6 @@ Daddle generates completely random, garbled data including:
 - **Chaos Structures**: Completely unpredictable nested combinations of all the above
 
 **Important**: There is NO fixed structure. Every field name, every value, every nesting level is completely random. The service truly lives up to its name - it's pure garbled chaos!
-
-## 🎯 Performance Strategies
-
-Daddle automatically chooses the optimal generation strategy based on response size:
-
-| Response Size | Strategy | Performance | Use Case |
-|---------------|----------|-------------|----------|
-| **< 10KB** | Direct generation | Fastest for small | Quick API responses |
-| **10KB - 1MB** | Chunk pool + parallel | Optimized throughput | Medium load testing |
-| **> 1MB** | Streaming generation | Memory-efficient | Large payload stress testing |
-
-### 🚀 Real Performance Examples
-
-```bash
-# Small response - direct generation (~1ms)
-curl "http://localhost:3000/garble?minBodySize=1000&maxBodySize=5000"
-
-# Medium response - chunk pool + parallel (~10ms)
-curl "http://localhost:3000/garble?minBodySize=100000&maxBodySize=500000"
-
-# Large response - streaming (8MB in 20-50ms!)
-curl "http://localhost:3000/garble?minBodySize=8000000&maxBodySize=8000000&minWaitDuration=20&maxWaitDuration=50"
-
-# Extreme load testing - 50MB payload
-curl "http://localhost:3000/garble?minBodySize=50000000&maxBodySize=50000000"
-```
 
 ## Development
 

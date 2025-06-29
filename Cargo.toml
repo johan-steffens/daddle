@@ -23,3 +23,8 @@ futures = "0.3"
 sysinfo = "0.30"
 once_cell = "1.19"
 tokio-stream = "0.1"
+openssl = { version = "0.10.72", features = ["vendored"] }
+
+[[bin]]
+name = "daddle"
+path = "src/main.rs"
