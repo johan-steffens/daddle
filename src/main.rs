@@ -10,11 +10,41 @@ mod streaming;
 
 use axum::{routing::get, Router};
 use std::sync::Arc;
+use tokio::signal;
 use tower::ServiceBuilder;
 use tower_http::cors::CorsLayer;
 
 use config::Config;
 use handlers::{garble_handler, health_handler, stats_handler};
+
+/// Wait for a shutdown signal (SIGTERM or SIGINT)
+async fn shutdown_signal() {
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("failed to install Ctrl+C handler");
+    };
+
+    #[cfg(unix)]
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = ctrl_c => {
+            tracing::info!("Received SIGINT (Ctrl+C), initiating graceful shutdown...");
+        },
+        _ = terminate => {
+            tracing::info!("Received SIGTERM, initiating graceful shutdown...");
+        },
+    }
+}
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -30,7 +60,7 @@ async fn main() -> anyhow::Result<()> {
 
     // Start background chunk generation task (this will initialize the pool lazily)
     tracing::info!("Starting background chunk generation task...");
-    tokio::spawn(async move {
+    let background_task = tokio::spawn(async move {
         tracing::info!("Background chunk generation task started");
         let chunk_pool = chunk_pool::CHUNK_POOL.clone();
         chunk_pool.background_maintenance().await;
@@ -69,7 +99,26 @@ async fn main() -> anyhow::Result<()> {
     tracing::info!("  curl 'http://{}'/garble?minBodySize=500&maxBodySize=2000&minWaitDuration=100&maxWaitDuration=500", bind_address);
     tracing::info!("  curl 'http://{}'/garble?minBodySize=8000000&maxBodySize=8000000&minWaitDuration=20&maxWaitDuration=50  # 8MB in 20-50ms!", bind_address);
 
-    axum::serve(listener, app).await?;
+    // Start the server with graceful shutdown
+    tracing::info!("Server starting with graceful shutdown support...");
 
+    axum::serve(listener, app)
+        .with_graceful_shutdown(shutdown_signal())
+        .await?;
+
+    tracing::info!("Server has shut down gracefully, stopping background tasks...");
+
+    // Abort the background task since it runs in an infinite loop
+    background_task.abort();
+
+    // Wait a moment for the task to clean up
+    match tokio::time::timeout(std::time::Duration::from_secs(5), background_task).await {
+        Ok(Ok(())) => tracing::info!("Background task completed gracefully"),
+        Ok(Err(e)) if e.is_cancelled() => tracing::info!("Background task was cancelled"),
+        Ok(Err(e)) => tracing::warn!("Background task error: {}", e),
+        Err(_) => tracing::warn!("Background task did not complete within timeout"),
+    }
+
+    tracing::info!("All tasks completed, application shutdown complete");
     Ok(())
 }
