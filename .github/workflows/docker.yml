@@ -25,6 +25,26 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
 
+      - name: Cache Cargo target directory
+        uses: actions/cache@v4
+        with:
+          path: target
+          key: ${{ runner.os }}-cargo-target-${{ hashFiles('**/Cargo.lock') }}-${{ hashFiles('**/*.rs') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-target-${{ hashFiles('**/Cargo.lock') }}-
+            ${{ runner.os }}-cargo-target-
+
+      - name: Cache Rust toolchain
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.rustup/toolchains
+            ~/.rustup/update-hashes
+            ~/.rustup/settings.toml
+          key: ${{ runner.os }}-rustup-${{ hashFiles('rust-toolchain.toml', 'rust-toolchain') }}
+          restore-keys: |
+            ${{ runner.os }}-rustup-
+
       - name: Read crate version
         id: crate
         run: |
@@ -54,5 +74,11 @@ jobs:
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/daddle:latest
             ${{ secrets.DOCKERHUB_USERNAME }}/daddle:${{ env.CARGO_VERSION }}
-          cache-from: type=gha,scope=daddle
-          cache-to:   type=gha,scope=daddle,mode=max
+          cache-from: |
+            type=gha,scope=daddle
+            type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/daddle:cache
+          cache-to: |
+            type=gha,scope=daddle,mode=max
+            type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/daddle:cache,mode=max
+          build-args: |
+            BUILDKIT_INLINE_CACHE=1
