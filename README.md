@@ -1,5 +1,11 @@
 # Daddle
 
+[![CI-Docker](https://img.shields.io/github/actions/workflow/status/johan-steffens/daddle/docker.yml?label=docker-build)](https://github.com/johan-steffens/daddle/actions/workflows/docker.yml)
+[![Rust Version](https://img.shields.io/badge/rust-1.70%2B-blue)](https://blog.rust-lang.org/2023/06/01/Rust-1.70.0.html)
+[![Docker Version](https://img.shields.io/docker/v/johansteffens/daddle?label=docker%20tag)](https://hub.docker.com/r/johansteffens/daddle)
+[![Docker Pulls](https://img.shields.io/docker/pulls/johansteffens/daddle)](https://hub.docker.com/r/johansteffens/daddle)
+[![License](https://img.shields.io/github/license/johan-steffens/daddle)](https://github.com/johan-steffens/daddle/blob/main/LICENSE.md)
+
 Daddle is a blazing-fast Rust-based HTTP service that generates completely random, chaotic, and truly "arbled JSON payloads of varying sizes with configurable wait durations. 
 
 ## 🚀 Key Features
@@ -35,12 +41,25 @@ Generates completely random, unpredictable JSON structures including:
 
 ## Quick Start
 
-### Prerequisites
+### Run with Docker
 
-- Rust 1.70+ installed
-- Cargo package manager
+> **Prerequisites:** Docker 20.10+ installed  
 
-### Installation and Running
+Pull the multi-arch image:
+
+```bash
+docker pull johansteffens/foxy:latest
+```
+
+Run the proxy, exposing port **8080**:
+
+```bash
+docker run --rm -p 8080:8080 johansteffens/foxy:latest
+```
+
+### Run from Source
+
+> **Prerequisites:** Rust 1.70+ installed with Cargo
 
 1. **Clone or navigate to the project directory**
    ```bash
