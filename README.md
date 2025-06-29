@@ -48,13 +48,13 @@ Generates completely random, unpredictable JSON structures including:
 Pull the multi-arch image:
 
 ```bash
-docker pull johansteffens/foxy:latest
+docker pull johansteffens/daddle:latest
 ```
 
-Run the proxy, exposing port **8080**:
+Run daddle, exposing port **3000**:
 
 ```bash
-docker run --rm -p 8080:8080 johansteffens/foxy:latest
+docker run --rm -p 8080:8080 johansteffens/daddle:latest
 ```
 
 ### Run from Source
