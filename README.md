@@ -54,7 +54,7 @@ docker pull johansteffens/daddle:latest
 Run daddle, exposing port **3000**:
 
 ```bash
-docker run --rm -p 8080:8080 johansteffens/daddle:latest
+docker run --rm -p 3000:3000 johansteffens/daddle:latest
 ```
 
 ### Run from Source
